@@ -262,9 +262,9 @@ public class GithubSecurityRealm extends AbstractPasswordBasedSecurityRealm impl
             writer.startNode("redirectUri");
             String redirectUriValue = DEFAULT_REDIRECT_URI;
             if (null != realm.getRedirectUri()) {
-            		redirectUriValue = realm.getRedirectUri();
-            	}
-			writer.setValue(redirectUriValue);
+                redirectUriValue = realm.getRedirectUri();
+            }
+            writer.setValue(redirectUriValue);
             writer.endNode();
         }
 
@@ -293,14 +293,13 @@ public class GithubSecurityRealm extends AbstractPasswordBasedSecurityRealm impl
             }
 
             if (realm.getRedirectUri() == null) {
-            		realm.setRedirectUri(DEFAULT_REDIRECT_URI);
+                realm.setRedirectUri(DEFAULT_REDIRECT_URI);
             }
 
             return realm;
         }
 
-        private void setValue(GithubSecurityRealm realm, String node,
-                String value) {
+        private void setValue(GithubSecurityRealm realm, String node, String value) {
             if (node.toLowerCase().equals("clientid")) {
                 realm.setClientID(value);
             } else if (node.toLowerCase().equals("clientsecret")) {
@@ -316,7 +315,7 @@ public class GithubSecurityRealm extends AbstractPasswordBasedSecurityRealm impl
             } else if (node.toLowerCase().equals("oauthscopes")) {
                 realm.setOauthScopes(value);
             } else if (node.toLowerCase().equals("redirecturi")) {
-            		realm.setRedirectUri(value);
+                realm.setRedirectUri(value);
             } else {
                 throw new ConversionException("Invalid node value = " + node);
             }
@@ -389,9 +388,9 @@ public class GithubSecurityRealm extends AbstractPasswordBasedSecurityRealm impl
         for (GitHubOAuthScope s : getJenkins().getExtensionList(GitHubOAuthScope.class)) {
             scopes.addAll(s.getScopesToRequest());
         }
-        String suffix="";
+        String suffix = "";
         if (!scopes.isEmpty()) {
-            suffix = "&scope="+Util.join(scopes,",")+"&state="+state;
+            suffix = "&scope=" + Util.join(scopes,",") + "&state=" + state;
         } else {
             // We need repo scope in order to access private repos
             // See https://developer.github.com/v3/oauth/#scopes
@@ -399,7 +398,7 @@ public class GithubSecurityRealm extends AbstractPasswordBasedSecurityRealm impl
         }
 
         if (null != redirectUri && !redirectUri.isEmpty()) {
-        		suffix += "&redirect_uri=" + redirectUri;
+            suffix += "&redirect_uri=" + redirectUri;
         }
 
         return new HttpRedirect(githubWebUri + "/login/oauth/authorize?client_id="
@@ -783,23 +782,22 @@ public class GithubSecurityRealm extends AbstractPasswordBasedSecurityRealm impl
      * @return true if the objects are the same instance and configuration.
      */
     @Override
-    public boolean equals(Object object){
-        if(object instanceof GithubSecurityRealm) {
+    public boolean equals(Object object) {
+        if (object instanceof GithubSecurityRealm) {
             GithubSecurityRealm obj = (GithubSecurityRealm) object;
             String redirectUri2 = this.getRedirectUri();
             if (null == redirectUri2) {
-            		redirectUri2 = DEFAULT_REDIRECT_URI;
+                redirectUri2 = DEFAULT_REDIRECT_URI;
             }
-			String redirectUri3 = obj.getRedirectUri();
-			if (null == redirectUri3) {
-				redirectUri3 = DEFAULT_REDIRECT_URI;
-			}
-			return this.getGithubWebUri().equals(obj.getGithubWebUri()) &&
-                this.getGithubApiUri().equals(obj.getGithubApiUri()) &&
-                this.getClientID().equals(obj.getClientID()) &&
-                this.getClientSecret().equals(obj.getClientSecret()) &&
-                this.getOauthScopes().equals(obj.getOauthScopes()) &&
-                	redirectUri2.equals(redirectUri3);
+            String redirectUri3 = obj.getRedirectUri();
+            if (null == redirectUri3) {
+                redirectUri3 = DEFAULT_REDIRECT_URI;
+            }
+            return this.getGithubWebUri().equals(obj.getGithubWebUri())
+                    && this.getGithubApiUri().equals(obj.getGithubApiUri())
+                    && this.getClientID().equals(obj.getClientID())
+                    && this.getClientSecret().equals(obj.getClientSecret())
+                    && this.getOauthScopes().equals(obj.getOauthScopes()) && redirectUri2.equals(redirectUri3);
         } else {
             return false;
         }
