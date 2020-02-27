@@ -121,6 +121,31 @@ public class GithubSecurityRealm extends AbstractPasswordBasedSecurityRealm impl
     private String redirectUri;
 
     /**
+     * For backwards compat. with existing groovy scripts.
+     *
+     * @param githubWebUri The URI to the root of the web UI for GitHub or GitHub Enterprise,
+     *                     including the protocol (e.g. https).
+     * @param githubApiUri The URI to the root of the API for GitHub or GitHub Enterprise,
+     *                     including the protocol (e.g. https).
+     * @param clientID The client ID for the created OAuth Application.
+     * @param clientSecret The client secret for the created GitHub OAuth Application.
+     * @param oauthScopes A comma separated list of OAuth Scopes to request access to.
+     */
+    public GithubSecurityRealm(String githubWebUri,
+            String githubApiUri,
+            String clientID,
+            String clientSecret,
+            String oauthScopes) {
+        super();
+
+        this.githubWebUri = Util.fixEmptyAndTrim(githubWebUri);
+        this.githubApiUri = Util.fixEmptyAndTrim(githubApiUri);
+        this.clientID     = Util.fixEmptyAndTrim(clientID);
+        setClientSecret(Util.fixEmptyAndTrim(clientSecret));
+        this.oauthScopes  = Util.fixEmptyAndTrim(oauthScopes);
+    }
+
+    /**
      * @param githubWebUri The URI to the root of the web UI for GitHub or GitHub Enterprise,
      *                     including the protocol (e.g. https).
      * @param githubApiUri The URI to the root of the API for GitHub or GitHub Enterprise,
